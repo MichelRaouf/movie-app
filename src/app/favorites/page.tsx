@@ -1,35 +1,38 @@
 "use client";
 
-import Link from "next/link";
 import { useMovieStore } from "@/stores/useMovieStore";
+import Link from "next/link";
+import Image from "next/image";
+import styles from "./Favorites.module.css";
 
 export default function FavoritesPage() {
   const { favorites, removeFavorite } = useMovieStore();
 
   return (
-    <main className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Favorite Movies</h1>
+    <main className={styles.container}>
+      <h1 className={styles.title}>Your Favorite Movies</h1>
 
-      {favorites.length === 0 && <p>No favorites yet!</p>}
-
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+      <div className={styles.grid}>
         {favorites.map((movie) => (
-          <div key={movie.id} className="border p-2 rounded">
+          <div key={movie.id} className={styles.card}>
             <Link href={`/movie/${movie.id}`}>
-              <img
+              <Image
                 src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
                 alt={movie.title}
-                className="w-full rounded"
+                width={500}
+                height={750}
+                className={styles.image}
               />
-              <h2 className="font-bold text-sm mt-2">{movie.title}</h2>
-              <p className="text-xs text-gray-600">{movie.release_date}</p>
-              <p className="text-xs">⭐ {movie.vote_average}</p>
+              <h2 className={styles.movieTitle}>{movie.title}</h2>
+              <p className={styles.meta}>{movie.release_date}</p>
+              <p className={styles.meta}>⭐ {movie.vote_average}</p>
             </Link>
+
             <button
               onClick={() => removeFavorite(movie.id)}
-              className="mt-2 text-xs bg-red-500 text-white px-2 py-1 rounded"
+              className={`${styles.button} ${styles.remove}`}
             >
-              Remove
+              Remove from Favorites
             </button>
           </div>
         ))}

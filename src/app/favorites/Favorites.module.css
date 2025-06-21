@@ -1,0 +1,56 @@
+.container {
+  padding: 1rem;
+}
+
+.title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 1rem;
+}
+
+.card {
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 0.5rem;
+  transition: transform 0.3s;
+}
+
+.card:hover {
+  transform: scale(1.02);
+}
+
+.image {
+  width: 100%;
+  border-radius: 6px;
+}
+
+.movieTitle {
+  font-weight: bold;
+  margin-top: 0.5rem;
+}
+
+.meta {
+  font-size: 0.75rem;
+  color: #666;
+}
+
+.button {
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
+  cursor: pointer;
+  border: none;
+  transition: background 0.2s;
+}
+
+.remove {
+  background: #e74c3c;
+  color: white;
+}
