@@ -2,12 +2,27 @@ import { getMovieDetails } from "../../../lib/api";
 import Image from "next/image";
 import styles from "./MovieDetails.module.css";
 
+type Genre = {
+  id: number;
+  name: string;
+};
+
+type MovieDetails = {
+  title: string;
+  backdrop_path: string;
+  release_date: string;
+  vote_average: number;
+  overview: string;
+  genres: Genre[];
+  runtime: number;
+};
+
 export default async function MovieDetailsPage({
   params,
 }: {
   params: { id: string };
 }) {
-  const movie = await getMovieDetails(params.id);
+  const movie: MovieDetails = await getMovieDetails(params.id);
 
   return (
     <main className={styles.container}>
@@ -24,7 +39,8 @@ export default async function MovieDetailsPage({
       </p>
       <p className={styles.section}>{movie.overview}</p>
       <p className={styles.section}>
-        <strong>Genres:</strong> {movie.genres.map((g) => g.name).join(", ")}
+        <strong>Genres:</strong>{" "}
+        {movie.genres.map((g: Genre) => g.name).join(", ")}
       </p>
       <p className={styles.section}>
         <strong>Runtime:</strong> {movie.runtime} minutes

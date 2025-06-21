@@ -1,6 +1,6 @@
 "use client";
 
-import { useMovieStore } from "@/stores/useMovieStore";
+import { useMovieStore } from "../../../stores/useMovieStore";
 import Link from "next/link";
 import Image from "next/image";
 import styles from "./Favorites.module.css";

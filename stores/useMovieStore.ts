@@ -1,16 +1,16 @@
-// stores/useMovieStore.ts
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { searchMovies, getPopularMovies } from "@/lib/api";
 
-interface Movie {
+type Movie = {
   id: number;
   title: string;
   poster_path: string;
   release_date: string;
   vote_average: number;
-}
+};
 
-interface MovieStore {
+type Store = {
   movies: Movie[];
   loading: boolean;
   error: string | null;
@@ -19,9 +19,9 @@ interface MovieStore {
   addFavorite: (movie: Movie) => void;
   removeFavorite: (id: number) => void;
   isFavorite: (id: number) => boolean;
-}
+};
 
-export const useMovieStore = create<MovieStore>()(
+export const useMovieStore = create<Store>()(
   persist(
     (set, get) => ({
       movies: [],
@@ -30,11 +30,13 @@ export const useMovieStore = create<MovieStore>()(
       favorites: [],
 
       searchMovies: async (query: string) => {
-        set({ loading: true, error: null });
         try {
-          const res = await fetch(`/api/search?query=${query}`);
-          const data = await res.json();
-          set({ movies: data, loading: false });
+          set({ loading: true, error: null });
+          const data = query.trim()
+            ? await searchMovies(query)
+            : await getPopularMovies();
+
+          set({ movies: data.results, loading: false });
         } catch (err: any) {
           set({ error: err.message, loading: false });
         }
@@ -48,7 +50,8 @@ export const useMovieStore = create<MovieStore>()(
       },
 
       removeFavorite: (id) => {
-        set({ favorites: get().favorites.filter((m) => m.id !== id) });
+        const updated = get().favorites.filter((m) => m.id !== id);
+        set({ favorites: updated });
       },
 
       isFavorite: (id) => {
@@ -56,7 +59,8 @@ export const useMovieStore = create<MovieStore>()(
       },
     }),
     {
-      name: "movie-favorites", // key in localStorage
+      name: "movie-store", // localStorage key
+      partialize: (state) => ({ favorites: state.favorites }), // only persist favorites
     }
   )
 );

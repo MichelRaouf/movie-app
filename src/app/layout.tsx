@@ -1,6 +1,6 @@
-// src/app/layout.tsx
 import "./globals.css";
 import type { Metadata } from "next";
+import Navbar from "../components/navbar";
 
 export const metadata: Metadata = {
   title: "Movie Search App",
@@ -15,17 +15,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        {/* Navigation Bar */}
-        <nav className="bg-gray-100 p-4 shadow-md flex gap-6">
-          <a href="/" className="font-semibold hover:underline">
-            Home
-          </a>
-          <a href="/favorites" className="font-semibold hover:underline">
-            Favorites
-          </a>
-        </nav>
-
-        {/* Main Content */}
+        <Navbar />
         <main className="max-w-7xl mx-auto">{children}</main>
       </body>
     </html>
